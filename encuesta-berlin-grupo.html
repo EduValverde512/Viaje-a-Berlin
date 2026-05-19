@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Encuesta Berlín Grupo</title>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=boska@400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root,[data-theme="light"] {
+      --color-bg:#f7f6f2; --color-surface:#f9f8f5; --color-surface-2:#fbfbf9; --color-surface-offset:#f3f0ec; --color-surface-offset-2:#edeae5; --color-surface-dynamic:#e6e4df; --color-divider:#dcd9d5; --color-border:#d4d1ca;
+      --color-text:#28251d; --color-text-muted:#66645f; --color-text-faint:#9d9b95; --color-text-inverse:#f9f8f4;
+      --color-primary:#01696f; --color-primary-hover:#0c4e54; --color-primary-active:#0f3638; --color-primary-highlight:#cedcd8;
+      --color-success:#437a22; --color-error:#a12c7b; --color-blue:#006494; --color-gold:#d19900;
+      --radius-sm:.375rem; --radius-md:.75rem; --radius-lg:1rem; --radius-xl:1.5rem; --radius-full:9999px;
+      --shadow-sm:0 1px 2px rgba(17,16,13,.06); --shadow-md:0 8px 24px rgba(17,16,13,.08); --shadow-lg:0 18px 48px rgba(17,16,13,.12);
+      --space-1:.25rem; --space-2:.5rem; --space-3:.75rem; --space-4:1rem; --space-5:1.25rem; --space-6:1.5rem; --space-8:2rem; --space-10:2.5rem; --space-12:3rem; --space-16:4rem; --space-20:5rem;
+      --text-xs:clamp(.75rem,.7rem + .25vw,.875rem); --text-sm:clamp(.875rem,.8rem + .35vw,1rem); --text-base:clamp(1rem,.95rem + .25vw,1.125rem); --text-lg:clamp(1.125rem,1rem + .75vw,1.5rem); --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem); --text-2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+      --font-display:'Boska', Georgia, serif; --font-body:'General Sans', Inter, sans-serif;
+    }
+    [data-theme="dark"] {
+      --color-bg:#171614; --color-surface:#1c1b19; --color-surface-2:#201f1d; --color-surface-offset:#1d1c1a; --color-surface-offset-2:#22211f; --color-surface-dynamic:#2d2c2a; --color-divider:#262523; --color-border:#393836;
+      --color-text:#e6e2db; --color-text-muted:#aaa49a; --color-text-faint:#726d64; --color-text-inverse:#1f1d19;
+      --color-primary:#4f98a3; --color-primary-hover:#68afba; --color-primary-active:#2f7b87; --color-primary-highlight:#263638;
+      --color-success:#7fbe58; --color-error:#d163a7; --color-blue:#79add8; --color-gold:#e8af34;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.25); --shadow-md:0 8px 24px rgba(0,0,0,.3); --shadow-lg:0 18px 48px rgba(0,0,0,.42);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+    body{min-height:100dvh;line-height:1.55;font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:
+      radial-gradient(circle at top right, color-mix(in oklab, var(--color-primary) 18%, transparent), transparent 26%),
+      radial-gradient(circle at bottom left, color-mix(in oklab, var(--color-blue) 10%, transparent), transparent 24%),
+      var(--color-bg);
+    }
+    img,svg{display:block;max-width:100%;height:auto}
+    button,input,select,textarea{font:inherit;color:inherit}
+    button{cursor:pointer;border:none;background:none}
+    a{color:inherit}
+    :focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm)}
+    .page{max-width:1040px;margin-inline:auto;padding:var(--space-4)}
+    .skip{position:absolute;left:-9999px;top:auto}.skip:focus{left:var(--space-4);top:var(--space-4);background:var(--color-surface);padding:var(--space-3);z-index:99;border-radius:var(--radius-md)}
+    .topbar{position:sticky;top:0;z-index:20;background:color-mix(in oklab, var(--color-bg) 82%, transparent);backdrop-filter:blur(16px);border-bottom:1px solid color-mix(in oklab, var(--color-text) 10%, transparent)}
+    .topbar-inner{max-width:1040px;margin:auto;padding:var(--space-3) var(--space-4);display:flex;align-items:center;justify-content:space-between;gap:var(--space-4)}
+    .brand{display:flex;align-items:center;gap:var(--space-3)}
+    .logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--color-primary),var(--color-blue));display:grid;place-items:center;box-shadow:var(--shadow-md)}
+    .logo svg{width:24px;height:24px;color:white}
+    .brand h1{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;line-height:1}
+    .brand p{font-size:var(--text-xs);color:var(--color-text-muted)}
+    .theme-toggle{width:44px;height:44px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--color-surface);border:1px solid color-mix(in oklab, var(--color-text) 10%, transparent)}
+    .hero{padding-block:clamp(var(--space-8),8vw,var(--space-16));display:grid;grid-template-columns:1.15fr .85fr;gap:var(--space-8);align-items:center}
+    .eyebrow{display:inline-flex;gap:var(--space-2);align-items:center;padding:.45rem .8rem;border-radius:var(--radius-full);font-size:var(--text-xs);letter-spacing:.06em;text-transform:uppercase;background:color-mix(in oklab, var(--color-primary) 12%, var(--color-surface));border:1px solid color-mix(in oklab, var(--color-primary) 22%, transparent);color:var(--color-text)}
+    .hero h2{font-family:var(--font-display);font-size:var(--text-2xl);line-height:.98;max-width:11ch;margin-top:var(--space-4)}
+    .hero p{max-width:58ch;margin-top:var(--space-4);color:var(--color-text-muted)}
+    .hero-card,.card,.summary-card{background:color-mix(in oklab, var(--color-surface) 88%, transparent);border:1px solid color-mix(in oklab, var(--color-text) 10%, transparent);border-radius:var(--radius-xl);box-shadow:var(--shadow-md)}
+    .hero-card{padding:var(--space-6);display:grid;gap:var(--space-4)}
+    .chips{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+    .chip{padding:.55rem .75rem;border-radius:var(--radius-full);font-size:var(--text-xs);background:var(--color-surface-offset);border:1px solid color-mix(in oklab, var(--color-text) 8%, transparent);color:var(--color-text-muted)}
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:var(--space-6);align-items:start}
+    .card{padding:var(--space-6)}
+    .section-title{font-family:var(--font-display);font-size:var(--text-xl);margin-bottom:var(--space-2)}
+    .section-intro{font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-6);max-width:58ch}
+    form{display:grid;gap:var(--space-6)}
+    .fieldset{display:grid;gap:var(--space-4);padding:var(--space-5);background:color-mix(in oklab, var(--color-surface-2) 88%, transparent);border:1px solid color-mix(in oklab, var(--color-text) 8%, transparent);border-radius:calc(var(--radius-xl) - var(--space-2))}
+    .fieldset legend{font-weight:700;padding-inline:var(--space-2);font-size:var(--text-sm);color:var(--color-text)}
+    .field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4)}
+    .field{display:grid;gap:var(--space-2)}
+    .field label,.choice-title{font-size:var(--text-sm);font-weight:600}
+    .hint{font-size:var(--text-xs);color:var(--color-text-muted)}
+    input,select,textarea{width:100%;background:var(--color-surface);border:1px solid var(--color-border);padding:.9rem 1rem;border-radius:var(--radius-md);min-height:48px}
+    textarea{min-height:112px;resize:vertical}
+    .check-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-3)}
+    .option{display:flex;align-items:flex-start;gap:var(--space-3);padding:var(--space-4);border-radius:var(--radius-lg);background:var(--color-surface);border:1px solid color-mix(in oklab, var(--color-text) 8%, transparent)}
+    .option input{width:18px;height:18px;min-height:auto;margin-top:.15rem}
+    .actions{display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:center}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);min-height:48px;padding:.9rem 1.1rem;border-radius:var(--radius-full);font-size:var(--text-sm);font-weight:700}
+    .btn-primary{background:var(--color-primary);color:white;box-shadow:var(--shadow-md)}
+    .btn-primary:hover{background:var(--color-primary-hover)}
+    .btn-secondary{background:var(--color-surface);border:1px solid color-mix(in oklab, var(--color-text) 10%, transparent)}
+    .btn-ghost{color:var(--color-text-muted)}
+    .summary-stack{display:grid;gap:var(--space-4);position:sticky;top:84px}
+    .summary-card{padding:var(--space-5)}
+    .summary-card h3{font-family:var(--font-display);font-size:var(--text-lg);margin-bottom:var(--space-3)}
+    .summary-list{display:grid;gap:var(--space-3);font-size:var(--text-sm)}
+    .summary-row{display:flex;justify-content:space-between;gap:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid color-mix(in oklab, var(--color-text) 8%, transparent)}
+    .summary-row:last-child{border-bottom:none;padding-bottom:0}
+    .summary-row span:last-child{text-align:right;color:var(--color-text-muted)}
+    .muted{color:var(--color-text-muted)}
+    .small{font-size:var(--text-xs)}
+    .footer-note{padding:var(--space-6) 0 var(--space-10);color:var(--color-text-muted);font-size:var(--text-sm)}
+    .status{display:none;padding:var(--space-4);border-radius:var(--radius-lg);font-size:var(--text-sm);margin-top:var(--space-4)}
+    .status.show{display:block}.status.success{background:color-mix(in oklab, var(--color-success) 14%, var(--color-surface));border:1px solid color-mix(in oklab, var(--color-success) 30%, transparent)}
+    .status.error{background:color-mix(in oklab, var(--color-error) 14%, var(--color-surface));border:1px solid color-mix(in oklab, var(--color-error) 30%, transparent)}
+    .inline-actions{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-3)}
+    .pill{display:inline-flex;align-items:center;padding:.45rem .7rem;border-radius:var(--radius-full);font-size:var(--text-xs);background:var(--color-surface-offset);color:var(--color-text-muted)}
+    @media (max-width: 900px){.hero,.grid{grid-template-columns:1fr}.summary-stack{position:static}.field-grid,.check-grid{grid-template-columns:1fr}}
+    @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Logo Berlín grupo">
+            <path d="M5 18V7l7-3 7 3v11"></path>
+            <path d="M9 10h.01M15 10h.01M9 14h.01M15 14h.01"></path>
+          </svg>
+        </div>
+        <div>
+          <h1>Encuesta Berlín</h1>
+          <p>Alojamiento grupo · Rave The Planet · agosto · Sisyphos</p>
+        </div>
+      </div>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Cambiar tema"></button>
+    </div>
+  </header>
+
+  <main id="contenido" class="page">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Grupo · Berlín · Rave The Planet · 13–18 agosto</div>
+        <h2>Rellena esto y organizamos la base para Rave The Planet.</h2>
+        <p>La idea es ordenar cuántos somos realmente, quién entra y sale antes, qué presupuesto tiene cada uno y qué tipo de alojamiento nos cuadra más para el viaje. El grupo va a Rave The Planet y llevamos la carroza “Rave de Ánimo”, así que esta encuesta ya queda orientada a ese plan y luego servirá también para la presentación final.</p>
+        <div class="chips" style="margin-top:var(--space-5)">
+          <span class="chip">Presupuesto por persona</span>
+          <span class="chip">Fechas exactas</span>
+          <span class="chip">Zona preferida</span>
+          <span class="chip">Tipo de cama</span>
+          <span class="chip">Plan de club</span>
+          <span class="chip">Rave The Planet</span>
+          <span class="chip">Carroza Rave de Ánimo</span>
+        </div>
+      </div>
+      <aside class="hero-card" aria-label="Resumen de uso">
+        <div style="width:min(100%,360px);background:#f3f3f3;border-radius:20px;padding:18px;box-shadow:var(--shadow-md);border:1px solid rgba(0,0,0,.08)">
+<svg viewBox="0 0 760 360" role="img" aria-label="Rave The Planet" style="width:100%;height:auto;display:block">
+  <rect width="760" height="360" fill="#ececec"/>
+  <g fill="#000">
+    <path d="M35 115 h86 c54 0 95 34 102 84 h-50 c-7-24-26-37-52-37H84v33h66v34H84v50h-49z"/>
+    <path d="M230 304 300 130 372 304h-55l-8-22h-66l-8 22zm46-57h33l-17-45z"/>
+    <path d="M348 130h154l-18 35h-53l41 0-39 75h-48l-37-75h57z"/>
+    <path d="M537 130h58v80h69v35h-69v24h87v35H537z"/>
+    <rect x="15" y="162" width="20" height="16"/>
+    <rect x="15" y="273" width="20" height="16"/>
+    <rect x="695" y="149" width="18" height="16"/>
+    <rect x="695" y="270" width="18" height="16"/>
+    <path d="M50 337v-51h23c16 0 26 8 26 21 0 16-12 30-28 30zm83 0v-51h25v18h28v-18h25v51h-25v-15h-28v15zm96 0v-51h87v17h-31v34zm65 0v-17h56v17zm72 0v-51h28l27 27v-27h24v51h-27l-28-28v28zm99 0v-51h88v17h-61v3h49v14h-49v17zm106 0v-51h25v34h54v17zm92 0v-51h86v17h-60v3h48v14h-48v17z"/>
+  </g>
+</svg>
+</div>
+        <div>
+          <div class="small muted">Cómo va</div>
+          <div class="section-title" style="font-size:var(--text-lg);margin:.2rem 0 0">1 minuto y pico</div>
+        </div>
+        <div class="summary-list">
+          <div class="summary-row"><span>Qué poner</span><span>Tu respuesta individual</span></div>
+          <div class="summary-row"><span>Qué sale de aquí</span><span>Número real, presupuesto y reparto de pisos</span></div>
+          <div class="summary-row"><span>Cómo enviarlo</span><span>Rellenar y copiar resumen a WhatsApp</span></div>
+          <div class="summary-row"><span>Contexto del viaje</span><span>Rave The Planet · carroza Rave de Ánimo</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid">
+      <section class="card" aria-labelledby="titulo-formulario">
+        <h2 id="titulo-formulario" class="section-title">Tu respuesta</h2>
+        <p class="section-intro">Cada uno rellena lo suyo, le da a “Generar resumen” y pega el texto en el grupo. También puedes exportarlo como archivo .txt si prefieres reenviarlo.</p>
+        <div class="hero-card" style="padding:var(--space-5);margin-bottom:var(--space-6)">
+          <div class="eyebrow" style="width:max-content">Contexto del grupo</div>
+          <h3 style="font-family:var(--font-display);font-size:var(--text-lg);margin-top:var(--space-3)">Rave The Planet · carroza “Rave de Ánimo”</h3>
+          <p class="small muted" style="margin-top:var(--space-2)">Metido ya en la encuesta para que luego el deck final tenga el mismo contexto del viaje, del grupo y del evento.</p>
+        </div>
+
+        <form id="survey-form">
+          <fieldset class="fieldset">
+            <legend>1. Persona</legend>
+            <div class="field-grid">
+              <div class="field">
+                <label for="nombre">Nombre</label>
+                <input id="nombre" name="nombre" placeholder="Ej. Edu" required>
+              </div>
+              <div class="field">
+                <label for="alias">Apodo en el grupo</label>
+                <input id="alias" name="alias" placeholder="Ej. Edu / Valver / como te llamen">
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="fieldset">
+            <legend>2. Fechas y noches</legend>
+            <div class="field-grid">
+              <div class="field">
+                <label for="llegada">Llegada a Berlín</label>
+                <input id="llegada" name="llegada" placeholder="Ej. 13 agosto por la mañana">
+              </div>
+              <div class="field">
+                <label for="salida">Salida de Berlín</label>
+                <input id="salida" name="salida" placeholder="Ej. 18 agosto por la tarde">
+              </div>
+              <div class="field">
+                <label for="noches">¿Cuántas noches duermes con el grupo?</label>
+                <select id="noches" name="noches">
+                  <option value="">Selecciona</option>
+                  <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>Más de 5</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="nochesFuera">¿Alguna noche duermes fuera del alojamiento?</label>
+                <input id="nochesFuera" name="nochesFuera" placeholder="Ej. Sí, la noche del 16">
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="fieldset">
+            <legend>3. Presupuesto</legend>
+            <div class="field-grid">
+              <div class="field">
+                <label for="presupuestoIdeal">Presupuesto ideal por persona y noche (€)</label>
+                <input id="presupuestoIdeal" name="presupuestoIdeal" inputmode="numeric" placeholder="Ej. 45">
+              </div>
+              <div class="field">
+                <label for="presupuestoMax">Máximo asumible por persona y noche (€)</label>
+                <input id="presupuestoMax" name="presupuestoMax" inputmode="numeric" placeholder="Ej. 70">
+              </div>
+            </div>
+            <p class="hint">Esto luego ayuda a convertirlo en presupuesto por apartamento y ver si compensa ir a 2 o 3 pisos.</p>
+          </fieldset>
+
+          <fieldset class="fieldset">
+            <legend>4. Zona preferida</legend>
+            <div class="choice-title">Marca una o varias</div>
+            <div class="check-grid">
+              <label class="option"><input type="checkbox" name="zona" value="Lo más cerca posible de Sisyphos"><span>Lo más cerca posible de Sisyphos</span></label>
+              <label class="option"><input type="checkbox" name="zona" value="Friedrichshain por ambiente"><span>Friedrichshain por ambiente</span></label>
+              <label class="option"><input type="checkbox" name="zona" value="Kreuzberg si compensa"><span>Kreuzberg si compensa</span></label>
+              <label class="option"><input type="checkbox" name="zona" value="Me da igual mientras vayamos bien"><span>Me da igual mientras vayamos bien</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="fieldset">
+            <legend>5. Cómo dormir</legend>
+            <div class="field-grid">
+              <div class="field">
+                <label for="compartir">¿Te importa compartir habitación?</label>
+                <select id="compartir" name="compartir">
+                  <option value="">Selecciona</option>
+                  <option>No</option>
+                  <option>Sí</option>
+                  <option>Depende con quién</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="sofa">¿Aceptarías sofá cama?</label>
+                <select id="sofa" name="sofa">
+                  <option value="">Selecciona</option>
+                  <option>Sí</option>
+                  <option>No</option>
+                  <option>Solo última opción</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="cama">Tipo de cama preferido</label>
+                <select id="cama" name="cama">
+                  <option value="">Selecciona</option>
+                  <option>Cama individual</option>
+                  <option>Cama doble compartida</option>
+                  <option>Me da igual</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="banos">¿Qué priorizas?</label>
+                <select id="banos" name="banos">
+                  <option value="">Selecciona</option>
+                  <option>Más baños y comodidad</option>
+                  <option>Estar todos más juntos</option>
+                  <option>Que salga más barato</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="fieldset">
+            <legend>6. Evento y grupo</legend>
+            <div class="field-grid">
+              <div class="field">
+                <label for="evento">Evento principal</label>
+                <input id="evento" name="evento" value="Rave The Planet">
+              </div>
+              <div class="field">
+                <label for="carroza">Carroza / grupo</label>
+                <input id="carroza" name="carroza" value="Rave de Ánimo">
+              </div>
+            </div>
+            <p class="hint">Esto queda fijo para que todas las respuestas salgan con el mismo contexto del viaje.</p>
+          </fieldset>
+
+          <fieldset class="fieldset">
+            <legend>7. Plan de fiesta y vuelos</legend>
+            <div class="field-grid">
+              <div class="field">
+                <label for="diasClub">Días que seguro quieres ir a Sisyphos</label>
+                <input id="diasClub" name="diasClub" placeholder="Ej. 14 y 15 seguro">
+              </div>
+              <div class="field">
+                <label for="vuelos">¿Tienes vuelos cerrados?</label>
+                <select id="vuelos" name="vuelos">
+                  <option value="">Selecciona</option>
+                  <option>Sí</option>
+                  <option>No</option>
+                  <option>Mirándolo</option>
+                </select>
+              </div>
+            </div>
+            <div class="field" style="margin-top:var(--space-4)">
+              <label for="extras">Comentarios extra</label>
+              <textarea id="extras" name="extras" placeholder="Ej. no quiero litera, prefiero zona con bares, llego tarde, me voy antes, etc."></textarea>
+            </div>
+          </fieldset>
+
+          <div class="actions">
+            <button class="btn btn-primary" type="submit">Generar resumen</button>
+            <button class="btn btn-secondary" type="button" id="copyBtn">Copiar texto</button>
+            <button class="btn btn-secondary" type="button" id="downloadBtn">Descargar .txt</button>
+            <button class="btn btn-ghost" type="reset">Limpiar</button>
+          </div>
+        </form>
+
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+      </section>
+
+      <aside class="summary-stack">
+        <section class="summary-card" aria-labelledby="preview-title">
+          <h2 id="preview-title">Resumen para WhatsApp</h2>
+          <p class="small muted" style="margin-bottom:var(--space-4)">Se genera automáticamente y lo pegas tal cual en el grupo.</p>
+          <textarea id="output" aria-label="Texto generado para WhatsApp" placeholder="Aquí aparecerá tu resumen..." style="min-height:360px"></textarea>
+          <div class="inline-actions">
+            <span class="pill">Copiar y pegar</span>
+            <span class="pill">O descargar</span>
+          </div>
+        </section>
+
+        <section class="summary-card">
+          <h3>Qué preguntas hemos metido</h3>
+          <div class="summary-list">
+            <div class="summary-row"><span>Cuántos somos</span><span>Se ordena con las respuestas</span></div>
+            <div class="summary-row"><span>Entradas / salidas</span><span>Para saber noches reales</span></div>
+            <div class="summary-row"><span>Presupuesto</span><span>Ideal y máximo</span></div>
+            <div class="summary-row"><span>Zona</span><span>Club cerca vs barrio con vida</span></div>
+            <div class="summary-row"><span>Tipo de cama</span><span>Para repartir habitaciones</span></div>
+            <div class="summary-row"><span>Evento / carroza</span><span>Queda unificado para todos</span></div>
+          </div>
+        </section>
+      </aside>
+    </section>
+
+    <p class="footer-note">Consejo práctico: cada uno rellena su ficha y la pega en el grupo. Luego con todas las respuestas se hace una tabla resumen y se buscan alojamientos reales en función del presupuesto y las noches exactas.</p>
+  </main>
+
+  <script>
+    (function(){
+      const root = document.documentElement;
+      const toggle = document.querySelector('[data-theme-toggle]');
+      let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.setAttribute('data-theme', theme);
+      function setIcon(){
+        toggle.innerHTML = theme === 'dark'
+          ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>'
+          : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>';
+        toggle.setAttribute('aria-label', theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
+      }
+      setIcon();
+      toggle.addEventListener('click', () => { theme = theme === 'dark' ? 'light' : 'dark'; root.setAttribute('data-theme', theme); setIcon(); });
+
+      const form = document.getElementById('survey-form');
+      const output = document.getElementById('output');
+      const status = document.getElementById('status');
+      const copyBtn = document.getElementById('copyBtn');
+      const downloadBtn = document.getElementById('downloadBtn');
+
+      function showStatus(message, type='success'){
+        status.className = 'status show ' + type;
+        status.textContent = message;
+      }
+
+      function getChecked(name){
+        return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value);
+      }
+
+      function line(label, value){
+        return `${label}: ${value && String(value).trim() ? String(value).trim() : '—'}`;
+      }
+
+      function buildSummary(){
+        const data = Object.fromEntries(new FormData(form).entries());
+        const zonas = getChecked('zona');
+        return [
+          '✈️ BERLÍN · MI RESPUESTA',
+          line('Evento', data.evento || 'Rave The Planet'),
+          line('Carroza / grupo', data.carroza || 'Rave de Ánimo'),
+          '',
+          line('Nombre', data.nombre),
+          line('Apodo', data.alias),
+          '',
+          '📅 Fechas',
+          line('Llegada', data.llegada),
+          line('Salida', data.salida),
+          line('Noches con el grupo', data.noches),
+          line('Noches fuera', data.nochesFuera),
+          '',
+          '💸 Presupuesto',
+          line('Ideal por persona/noche', data.presupuestoIdeal ? data.presupuestoIdeal + ' €' : ''),
+          line('Máximo por persona/noche', data.presupuestoMax ? data.presupuestoMax + ' €' : ''),
+          '',
+          '📍 Zona',
+          line('Preferencia', zonas.length ? zonas.join(', ') : ''),
+          '',
+          '🛏️ Dormir',
+          line('Compartir habitación', data.compartir),
+          line('Sofá cama', data.sofa),
+          line('Tipo de cama', data.cama),
+          line('Prioridad', data.banos),
+          '',
+          '🎧 Plan / vuelos',
+          line('Días de Sisyphos', data.diasClub),
+          line('Vuelos', data.vuelos),
+          line('Comentarios extra', data.extras)
+        ].join('\n');
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if(!form.reportValidity()) return;
+        output.value = buildSummary();
+        showStatus('Resumen generado. Ya puedes copiarlo y pegarlo en WhatsApp.');
+        output.focus();
+      });
+
+      copyBtn.addEventListener('click', async () => {
+        if(!output.value.trim()) {
+          output.value = buildSummary();
+        }
+        try {
+          await navigator.clipboard.writeText(output.value);
+          showStatus('Texto copiado al portapapeles.');
+        } catch {
+          showStatus('No se pudo copiar automáticamente. Selecciona el texto y cópialo manualmente.', 'error');
+        }
+      });
+
+      downloadBtn.addEventListener('click', () => {
+        if(!output.value.trim()) {
+          output.value = buildSummary();
+        }
+        const blob = new Blob([output.value], { type: 'text/plain;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'respuesta-encuesta-berlin.txt';
+        a.click();
+        URL.revokeObjectURL(a.href);
+        showStatus('Archivo .txt descargado.');
+      });
+
+      form.addEventListener('reset', () => {
+        setTimeout(() => {
+          output.value = '';
+          status.className = 'status';
+          status.textContent = '';
+        }, 0);
+      });
+    })();
+  </script>
+</body>
+</html>
